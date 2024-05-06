@@ -1,7 +1,6 @@
 import google.generativeai as genai
 import os
 
-
 def get_summary(transcript):
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
