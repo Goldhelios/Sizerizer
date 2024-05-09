@@ -19,7 +19,7 @@ def get_summary(transcript):
     in bullet points and code blocks. However, please note that the total length of the
     content in bullet points and regular text should not exceed 500 words. Do not include
     the size of the code block in the 500 words the code block can be of any length.
-
+    No matter what happens generate the summary in English.
     Please generate the output in English, regardless of the language used in the
     original prompt. It is important to adhere to this format as it is optimized for
     further Python processing.
