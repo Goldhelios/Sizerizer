@@ -25,7 +25,7 @@ def get_summary(transcript):
     further Python processing.
     Always make sure to generate response in English as it is very important for further python processing.
     """
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.0-pro")
     ans = (model.generate_content(template + transcript)).text
     with open("sum.txt", "a") as f:
         f.write(ans)

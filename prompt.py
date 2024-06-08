@@ -12,9 +12,10 @@ def get_quiz(transcript):
 
     genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-    template = f""" You are a helpful assistant programmed to generate questions based on any text provided. For every 
-    chunk of text you receive, you're tasked with designing 10 distinct questions. Each of these questions will be 
-    accompanied by 3 possible answers: one correct answer and two incorrect ones.
+    template = f""" You are a helpful assistant programmed to generate questions based on any text provided. You can
+    understand all languages but can only output english.
+    For every chunk of text you receive, you're tasked with designing 10 distinct questions. Each of these questions
+    will be accompanied by 3 possible answers: one correct answer and two incorrect ones.
 
     To ensure clarity and ease of processing, please structure your response in the following format, emulating a Python 
     list of lists:
@@ -33,6 +34,7 @@ def get_quiz(transcript):
     You must adhere to this format as it's optimized for further Python processing.
     Always make sure to generate response in English as it is very important for further python processing.
     """
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.0-pro")
     ans = (model.generate_content(template + transcript)).text
+    print(ans)
     return ans
