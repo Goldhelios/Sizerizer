@@ -1,0 +1,55 @@
+[
+    {
+        "question": "What is the OOP budget for this project?",
+        "input_type": "Selectbox",
+        "category": "size",
+        "answers": [
+            {"text": "$100K or less", "points": 1},
+            {"text": "$200K or less", "points": 1.5625},
+            {"text": "$500K or less", "points": 2.625},
+            {"text": "$500K or more", "points": 3.625}
+        ]
+    },
+    {
+        "question": "What is the format of this project?",
+        "input_type": "Selectbox",
+        "category": "size",
+        "answers": [
+            {"text": "Event (Single Day)", "points": 1.333333333},
+            {"text": "Event (Multi Day)", "points": 2},
+            {"text": "Tour (Single Segment)", "points": 2.75},
+            {"text": "Tour (Multi Segment)", "points": 3.666666667}
+        ]
+    },
+    {
+        "question": "What is the size of the footprint?",
+        "input_type": "Selectbox",
+        "category": "size",
+        "answers": [
+            {"text": "30' x 30' or less", "points": 1.5},
+            {"text": "100' x 100' or less", "points": 2.375},
+            {"text": "150' x 150' or less", "points": 3.166666667},
+            {"text": "150' x 150' or larger", "points": 4}
+        ]
+    },
+    {
+        "question": "What is the target audience size per event?",
+        "input_type": "Selectbox",
+        "category": "size",
+        "answers": [
+            {"text": "1,500 or less", "points": 1.75},
+            {"text": "8,000 or less", "points": 2.9375},
+            {"text": "8,000 or more", "points": 3.75}
+        ]
+    },
+    {
+        "question": "What is the number of target locations?",
+        "input_type": "Selectbox",
+        "category": "size",
+        "answers": [
+            {"text": "1 to 5", "points": 1.583333333},
+            {"text": "5 to 30", "points": 2.666666667},
+            {"text": "30 or more", "points": 3.5}
+        ]
+    }
+]

@@ -1,0 +1,166 @@
+[
+    {
+        "question": "Does this integrate into existing non-momentum work?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Yes, it integrates", "points": 2.142857143},
+            {"text": "No, does not integrate", "points": 1.785714286}
+        ]
+    },
+    {
+        "question": "Is a brand new concept or platform required?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Yes, brand new concept", "points": 2.75},
+            {"text": "No, not a new concept", "points": 1.1875}
+        ]
+    },
+    {
+        "question": "Have we executed this program in the past?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Yes, we've executed this before", "points": 1.4375},
+            {"text": "No, we haven't executed this before", "points": 2.3125}
+        ]
+    },
+    {
+        "question": "What type of conceptual work is required?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Thematic Wrapper", "points": 2.1875},
+            {"text": "Tactical Ideas", "points": 1.9375},
+            {"text": "Copy & Messaging", "points": 1.4375}
+        ]
+    },
+    {
+        "question": "Does the design need to be changed at all?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "New Design", "points": 2.3125},
+            {"text": "Existing Design (No New Design)", "points": 1.1875}
+        ]
+    },
+    {
+        "question": "Will element(s) require heavy or light resizing work?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Same or Similar Elements", "points": 1.071428571},
+            {"text": "New or Different Elements", "points": 2.071428571}
+        ]
+    },
+    {
+        "question": "What type of visuals do we need to sell in the final program?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Basic Sketch", "points": 1.642857143},
+            {"text": "Moodboard(s)", "points": 1.142857143},
+            {"text": "Photoshop Comp(s)", "points": 2},
+            {"text": "White Model Render(s)", "points": 2.5},
+            {"text": "Color Suggestive Model(s)", "points": 3},
+            {"text": "Photorealistic Model(s)", "points": 3}
+        ]
+    },
+    {
+        "question": "Do we need to alter the user experience, flow or journey?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Exact Same", "points": 1},
+            {"text": "Slight Change(s)", "points": 1.125},
+            {"text": "100% New", "points": 2.3125}
+        ]
+    },
+    {
+        "question": "Who is funding this tour?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Walmart Marketing", "points": 1.083333333},
+            {"text": "Supplier (Merchant)", "points": 2.5}
+        ]
+    },
+    {
+        "question": "How many suppliers are expected?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "1", "points": 1.25},
+            {"text": "2 to 5", "points": 2.1875},
+            {"text": "5 or more", "points": 2.6875}
+        ]
+    },
+    {
+        "question": "What type of supplier integration is expected?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Simple Signage & Branding Integration", "points": 1.571428571},
+            {"text": "Complex Footprint Integration", "points": 3}
+        ]
+    },
+    {
+        "question": "Where is this taking place?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Onsite (Walmart)", "points": 1.583333333},
+            {"text": "Offsite (Other Location)", "points": 2.666666667}
+        ]
+    },
+    {
+        "question": "Where onsite is this taking place?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Store Interior", "points": 1.714285714},
+            {"text": "Sidewalk", "points": 1.714285714},
+            {"text": "Parking Lot", "points": 1.928571429}
+        ]
+    },
+    {
+        "question": "Where offsite is this taking place?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Inside", "points": 1.571428571},
+            {"text": "Outside", "points": 2.428571429}
+        ]
+    },
+    {
+        "question": "What type of offsite space will it be?",
+        "input_type": "Radio",
+        "category": "complexity",
+        "answers": [
+            {"text": "Blank (4-Wall)", "points": 2.333333333},
+            {"text": "Purpose Built Venue (Auditorium, Concert Hall...)", "points": 2}
+        ]
+    },
+    {
+        "question": "Besides the central activation, what additional deliverables are we responsible for?",
+        "input_type": "Multiselect",
+        "category": "complexity",
+        "answers": [
+            {"text": "Talent Search & Integration", "points": 2.625},
+            {"text": "Creative Tech Solution", "points": 2.5},
+            {"text": "Digital Media & Comms Plan", "points": 1.875},
+            {"text": "WMC Integration", "points": 2.375},
+            {"text": "Info Hub Page Development", "points": 1.375},
+            {"text": "RSVP Hub Page Development", "points": 2},
+            {"text": "Content Production (Animation, Illustration...)", "points": 2.428571429},
+            {"text": "Photo Capture at Activation(s)", "points": 1.8125},
+            {"text": "Video Capture at Activation(s)", "points": 2.285714286},
+            {"text": "Measurement (Survey)", "points": 1.428571429},
+            {"text": "Giveaways & Swag", "points": 1.5},
+            {"text": "Maclab Retouching", "points": 1.428571429},
+            {"text": "Content Editing (Video/Photo)", "points": 1.928571429},
+            {"text": "Sizzle Video", "points": 1.928571429}
+        ]
+    }
+]
