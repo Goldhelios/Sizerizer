@@ -165,7 +165,7 @@ if selected == "Sizerizer":
     #Log Final Group Decision
 
     st.write("#")
-    st.title("Prepare Outcome Transmission")
+    st.title("Log Sizerizer Results")
     st.write('Once complete, please fill out the below and press log to store this information')
 
     Project_Name = st.text_input("Project Name")
