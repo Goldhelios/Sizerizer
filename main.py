@@ -1,70 +1,44 @@
 import json
-import random
-
-from openai import OpenAI
 import streamlit as st
 from streamlit_option_menu import option_menu
-
+from functions  import *
 import jsonification
-import prompt
-import summariser
-import transcriptor
+import datetime
+import requests
 
+# Page Configuration
+st.set_page_config(layout="centered",page_title="Sizerizer",page_icon=":straight_ruler:")
 
-import os
-openai_api_key = os.getenv("OPENAI_API_KEY")
+# Title of the Application
+st.write("###")
+st.title("WMT Sizerizer")
+st.write("Welcome to the Sizerizer, a tool to help inform resource allocation, staffing decisions, and project management strategies for your client request.")
 
-
-def highlight_max(s):
-    is_max = s == s.max()
-    return ['background-color: #C91A46' if v else '' for v in is_max]
-
-
-# Set the layout of the page to wide
-st.set_page_config(layout="wide")
-
-# Title of the application
-st.write("##")
-st.title("Quizify")
-st.write('')
-
-# Container for the navigation menu
+# Navigation Menu
 with st.container():
+
     # Display the navigation menu using the option_menu widget
     selected = option_menu(
         menu_title=None,
-        options=['Home', 'Summary', 'Quizzes', 'Chatbot'],
-        icons=['house', 'book', 'code-slash', 'robot'],
+        options=['Sizerizer', 'Taxonomy', 'FAQ'],
+        icons=['robot', 'book', 'star'],
         orientation='horizontal'
     )
 
-link = ''
-pressed = False
 
-# Home page
-if selected == 'Home':
+# FAQ Page
+if selected == 'FAQ':
     with st.container():
-        st.title("Home Page")
+        st.title("FAQ")
         # add a text box for the user to input the YouTube link
-        link = st.text_input("Enter the youtube link here", placeholder="Paste the link here")
+      
 
-        # add a button that will take the user to the summaries page
-        if st.button("Get Summary"):
-            with st.spinner("Brewing your Summary and Quiz!"):
-                t = transcriptor.get_transcript(link)
-                summariser.get_summary(t)
-                with open("quiz.json", "w") as f:
-                    f.write("")
-                jsonification.lists_of_lists_to_json(prompt.get_quiz(t), 'quiz.json')
-                pressed = True
-            st.write("please go to the summary and quiz page to view the generated summary and quiz respectively.")
-
-# Summaries page
-if selected == "Summary":
+# Taxonomy Page
+if selected == "Taxonomy":
     with st.container():
 
         # Display the summary text
-        st.markdown("# Summary of the video:")
+        st.markdown("# Taxonomy on Walmart")
 
         # Read the content of the summary.txt file
         with open("sum.txt", "r") as f:
@@ -73,85 +47,149 @@ if selected == "Summary":
         with open("sum.txt", "w") as f:
             f.write("")
         st.write("")
-# Quizzes page
-if selected == "Quizzes":
-    with st.container():
-        st.title("Quiz Time!")
-        with open('quiz.json', 'r') as file:
-            questions = json.load(file)
 
-        # Initialize score
-        score = 0
-        correct_answers = 0
 
-        # Initialize quiz_answers if not already set
-        if 'quiz_answers' not in st.session_state:
-            st.session_state.quiz_answers = {i: None for i in range(len(questions))}
+#Sizerizer Page
+if selected == "Sizerizer":
 
-        # Initialize shuffled_options if not already set
-        if 'shuffled_options' not in st.session_state:
-            st.session_state.shuffled_options = {}
-            for i, question in enumerate(questions):
-                options = [question['answer'], question['wrong_answer1'], question['wrong_answer2']]
-                random.shuffle(options)
-                st.session_state.shuffled_options[i] = options
+    col1, col2 = st.columns(2)
 
-        # Display each question and get user input
-        for i, question in enumerate(questions, 1):  # Start index at 1 for display
-            st.subheader(f"Question {i}: {question['question']}")
+    with col1:
 
-            # Get previously selected answer (if any)
-            selected_option = st.session_state.quiz_answers.get(i - 1, None)  # Use i-1 to match dictionary index
 
-            # Use the stored shuffled options
-            options = st.session_state.shuffled_options[i - 1]
+        #Size Analysis
+        st.write("#")
+        st.header(":blue[Size Analysis]", divider="blue")
 
-            # Check if selected_option is in the options list before trying to find its index
-            if selected_option is not None and selected_option in options:
-                selected_index = options.index(selected_option)
-            else:
-                # Set a default index or handle the situation differently
-                selected_index = 0  # or any other default index
+        # Read the size_questions.json file
+        with open('size_questions.json', 'r') as file:
+            questions_data = json.load(file)
 
-            # Always render the radio button widget and set the state unconditionally
-            selected_option = st.radio("Choose an option", options, key=f"question_{i}", index=selected_index)
-            # Update answers dictionary
-            st.session_state.quiz_answers[i - 1] = selected_option  # Use i-1 to match dictionary index
+        size_points = [get_user_input(q["question"], q["input_type"], q["answers"], key=f"size-{i}") for i, q in enumerate(questions_data)]
 
-        # Calculate score correctly using i-1 to match dictionary index
-        for i, question in enumerate(questions, 1):
-            if st.session_state.quiz_answers.get(i - 1) == question['answer']:
-                correct_answers += 1
+        if size_points:
+            total_size_points = sum(size_points)
+            average_size_points = total_size_points / len(size_points)
 
-        # Display the score
-        score = correct_answers
-        st.write(f"Your final score is: {score}/{len(questions)}")
+            # Calculate size using both methods
+            size1 = size_method_range(average_size_points)
+            size2 = size_method_avg(average_size_points)
 
-if selected == "Chatbot":
-    client = OpenAI()
-    if "model" not in st.session_state:
-        st.session_state["model"] = "gpt-3.5-turbo"
+        # Display the results
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+        col3, col4 = st.columns(2)
+        if size1 == size2 and size1 != "":
+            with col3:
+                st.image(Giphy_Size_Selector(size1), use_column_width=True)
+            with col4:
+                st.write("##")
+                st.write(f"{size1}")
+        elif size1 != "" and size2 != "":
+            with col3:
+                st.image(Giphy_Size_Selector("or"), use_column_width=True)
+            with col4:
+                st.write("##")
+                st.write(f"{size1} or {size2}")
 
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        else:
+            st.write("")
+ 
 
-    if prompt := st.chat_input("What is up?"):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    with col2:
 
-        with st.chat_message("assistant"):
-            stream = client.chat.completions.create(
-                model=st.session_state["model"],
-                messages=[
-                    {"role": m["role"], "content": m["content"]}
-                    for m in st.session_state.messages
-                ],
-                stream=True,
-            )
-            response = st.write_stream(stream)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        # Complexity Analysis
+        st.write("#")
+        st.header(":green[Complexity Analysis]", divider="green")
+
+        # Read the complexity_questions.json file
+        with open('complexity_questions.json', 'r') as file:
+            complexity_questions_data = json.load(file)
+
+        responses = []
+
+        s = 0
+        complexity_answer1 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+        s = s+ 1
+        complexity_answer2 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+        s = s+ 1
+        complexity_answer3 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+        s = s+ 1
+        if complexity_answer2 == "No, not a new concept":
+            x = False
+        else: 
+            x = True
+        complexity_answer4 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],x)
+        s = s+ 1
+        complexity_answer5 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],x)
+        s = s+ 1
+        if complexity_answer5 == "Existing Design (No New Design)":
+            z = False
+        else: 
+            z = True
+        complexity_answer6 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],z)
+        s = s+ 1
+        complexity_answer7 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],x)
+        s = s+ 1
+        complexity_answer8 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],z)
+        s = s+ 1
+        complexity_answer9 = []
+        complexity_answer9 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+        s = s+ 1
+        if "Supplier (Merchant)" in complexity_answer9:
+            q = False
+        else: 
+            q = True
+        complexity_answer10 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],q)
+        s = s+ 1
+        complexity_answer11 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],q)
+        s = s+ 1
+        complexity_answer12 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+        s = s+ 1
+        if "Onsite (Walmart)" in complexity_answer12:
+            w = False
+        else: 
+            w = True
+        if "Offsite (Other Location)" in complexity_answer12:
+            o = False
+        else: 
+            o = True
+        complexity_answer13 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],w)
+        s = s+ 1
+        complexity_answer13 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],o)
+        s = s+ 1
+        complexity_answer13 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],o)
+        s = s+ 1
+        complexity_answer13 = display_complexity_question(complexity_questions_data[s]["question"],complexity_questions_data[s]["input_type"], complexity_questions_data[s]["answers"],False)
+       
+
+    #Log Final Group Decision
+
+    st.write("#")
+    st.title("Prepare Outcome Transmission")
+    st.write('Once complete, please fill out the below and press log to store this information')
+
+    Project_Name = st.text_input("Project Name")
+    Group_Decision_Complexity = st.selectbox('Final Agreed Upon Comlexity', ["Simple","Standard","Complex"], index = None)
+    Group_Decision_Size = st.selectbox('Final Agreed Upon Size', ["Small","Medium","Large","Extra Large"], index = None)
+    Group_Decision_Comments = st.text_input("Comments")
+    Submission_date = datetime.datetime.now()
+
+    # Initialize session state for button click
+    if "button_clicked" not in st.session_state:
+        st.session_state.button_clicked = False
+
+    # Function to handle button click
+    def on_button_click():
+        st.session_state.button_clicked = True
+
+    # Button to trigger the success message
+    st.button("Transmit Results", on_click=on_button_click, type="primary")
+
+    # Conditionally display the success message
+    if st.session_state.button_clicked:
+        st.success('This project has been sizerized and stored.', icon="✅")
+
+    #Prepare Selection & Decision Data For Transmit
+
+    #Transmit Data Via Smartsheet API
+
